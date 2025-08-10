@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-const jokesApiBase = "https://sv443.net/jokeapi/v2/";
+const jokesApiBase = "https://v2.jokeapi.dev/joke/Any?safe-mode";
 
 const options = {
   method: 'GET', // Explicitly setting the method, though 'GET' is default
@@ -21,7 +21,15 @@ function App() {
       }
 
       const result = await response.json();
-      setJoke(result);
+      console.log({ result} );
+
+      const { joke, setup, delivery } = result;
+      if(joke) {
+        setJoke(joke);
+      } else {
+        setJoke(`${setup} ${delivery}`);
+      }
+
     } catch (error) {
       console.error("Caught an unknown error.");
     }
