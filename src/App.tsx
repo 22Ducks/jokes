@@ -9,9 +9,15 @@ const options = {
   }
 };
 
+type Joke = {
+  joke?: string;
+  setup?: string;
+  delivery?: string;
+}
+
 function App() {
 
-  const [joke, setJoke] = useState("");
+  const [joke, setJoke] = useState<Joke>({});
 
   const getJoke = async () => {
     try {
@@ -21,14 +27,9 @@ function App() {
       }
 
       const result = await response.json();
-      console.log({ result} );
 
       const { joke, setup, delivery } = result;
-      if(joke) {
-        setJoke(joke);
-      } else {
-        setJoke(`${setup} ${delivery}`);
-      }
+      setJoke({ joke, setup, delivery });
 
     } catch (error) {
       console.error("Caught an unknown error.");
@@ -47,7 +48,9 @@ function App() {
       </div>
 
       <div>
-        <p>{joke}</p>
+        { joke.joke && <p>{joke.joke}</p> }
+        { joke.setup && <p>{joke.setup}</p> }
+        { joke.delivery && <p>{joke.delivery}</p> }
       </div>
     </>
   )
