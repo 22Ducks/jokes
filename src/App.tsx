@@ -9,6 +9,14 @@ const options = {
   }
 };
 
+const jokeCats = {
+  Any: false,
+  Misc: true,
+  Programming: true,
+  Pun: true,
+  Spooky: true
+}
+
 type Joke = {
   joke?: string;
   setup?: string;
@@ -36,12 +44,29 @@ function App() {
     }
   }
 
+  const onChange = (cat: string) => {
+    
+  }
+
   return (
     <>
       <div>
         <img src="/congrationYouDoneIt.png" className="logo" alt="Vite logo" />
       </div>
       <h1>Flock of Jokes</h1>
+
+      <fieldset>
+        <legend>Select desired joke categories:</legend>
+
+          {
+            Object.entries(jokeCats).map(([cat, checked]) => 
+              <div>
+                <input type="checkbox" name={cat} checked={checked} onChange={e => console.log(e)}/>
+                <label htmlFor={cat}>{cat}</label>
+              </div>
+            )
+          }
+      </fieldset>
 
       <div className="card">
         <button onClick={getJoke}>Get Joke</button>
