@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 const jokesApiBase = "https://v2.jokeapi.dev/joke/";
 const safeMode = "?safe-mode";
@@ -10,12 +10,12 @@ const options = {
   }
 };
 
-const jokeCats = {
-  Misc: true,
-  Programming: true,
-  Pun: true,
-  Spooky: true
-}
+// const jokeCats = {
+//   Misc: true,
+//   Programming: true,
+//   Pun: true,
+//   Spooky: true
+// }
 
 type Categories = Record<string, boolean>;
 
@@ -28,7 +28,26 @@ type Joke = {
 function App() {
 
   const [joke, setJoke] = useState<Joke>({});
-  const [categories, setCategories] = useState<Categories>(jokeCats);
+  const [categories, setCategories] = useState<Categories>({});
+
+  useEffect(() => {
+    const getCats = async () => {
+      const response = await fetch("https://v2.jokeapi.dev/categories", options);
+      if(!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      const jokeCats = (result.categories as string[]).reduce((acc, curr) => {
+        return curr === "Any" ? acc : {...acc, [curr]: false};
+      }, {} as Categories);
+
+      setCategories(jokeCats);
+    }
+
+    getCats();
+  }, []);
 
   const catList = Object.keys(categories).reduce((acc, curr) => {
     return categories[curr] ? [...acc, curr] : acc;
