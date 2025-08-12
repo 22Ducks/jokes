@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
-const jokesApiBase = "https://v2.jokeapi.dev/joke/Any?safe-mode";
+const jokesApiBase = "https://v2.jokeapi.dev/joke/";
+const safeMode = "?safe-mode";
 
 const options = {
   method: 'GET', // Explicitly setting the method, though 'GET' is default
@@ -10,12 +11,13 @@ const options = {
 };
 
 const jokeCats = {
-  Any: false,
   Misc: true,
   Programming: true,
   Pun: true,
   Spooky: true
 }
+
+type Categories = Record<string, boolean>;
 
 type Joke = {
   joke?: string;
@@ -26,10 +28,17 @@ type Joke = {
 function App() {
 
   const [joke, setJoke] = useState<Joke>({});
+  const [categories, setCategories] = useState<Categories>(jokeCats);
+
+  const catList = Object.keys(categories).reduce((acc, curr) => {
+    return categories[curr] ? [...acc, curr] : acc;
+  }, [] as Array<string>).join(",") || "Any";
+
+  const jokeUrl = jokesApiBase + catList + safeMode;
 
   const getJoke = async () => {
     try {
-      const response = await fetch(jokesApiBase, options);
+      const response = await fetch(jokeUrl, options);
       if(!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
@@ -45,7 +54,10 @@ function App() {
   }
 
   const onChange = (cat: string) => {
-    
+    setCategories({
+      ...categories,
+      [cat]: !categories[cat]
+    });
   }
 
   return (
@@ -59,9 +71,9 @@ function App() {
         <legend>Select desired joke categories:</legend>
 
           {
-            Object.entries(jokeCats).map(([cat, checked]) => 
+            Object.entries(categories).map(([cat, checked]) => 
               <div>
-                <input type="checkbox" name={cat} checked={checked} onChange={e => console.log(e)}/>
+                <input type="checkbox" name={cat} checked={checked} onChange={() => onChange(cat)}/>
                 <label htmlFor={cat}>{cat}</label>
               </div>
             )
