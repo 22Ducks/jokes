@@ -1,24 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { getCats } from './getCats';
-import { jokesApiBase, options, safeMode } from './constants';
 import { getJoke } from './getJoke';
-
-
-// const jokeCats = {
-//   Misc: true,
-//   Programming: true,
-//   Pun: true,
-//   Spooky: true
-// }
-
-type Categories = Record<string, boolean>;
-
-type Joke = {
-  joke?: string;
-  setup?: string;
-  delivery?: string;
-}
+import type { Categories, Joke } from './types';
+import { CatSelection } from './CatSelection';
 
 function App() {
 
@@ -33,13 +18,6 @@ function App() {
     return categories[curr] ? [...acc, curr] : acc;
   }, [] as Array<string>).join(",") || "Any";
 
-  const onChange = (cat: string) => {
-    setCategories({
-      ...categories,
-      [cat]: !categories[cat]
-    });
-  }
-
   return (
     <>
       <div>
@@ -47,18 +25,7 @@ function App() {
       </div>
       <h1>Flock of Jokes</h1>
 
-      <fieldset>
-        <legend>Select desired joke categories:</legend>
-
-          {
-            Object.entries(categories).map(([cat, checked]) => 
-              <div>
-                <input type="checkbox" name={cat} checked={checked} onChange={() => onChange(cat)}/>
-                <label htmlFor={cat}>{cat}</label>
-              </div>
-            )
-          }
-      </fieldset>
+      <CatSelection categories={categories} setCategories={setCategories} />
 
       <div className="card">
         <button onClick={() => getJoke(catList, setJoke)}>Get Joke</button>
