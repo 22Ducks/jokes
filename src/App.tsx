@@ -9,6 +9,7 @@ function App() {
 
   const [joke, setJoke] = useState<Joke>({});
   const [categories, setCategories] = useState<Categories>({});
+  const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     getCats(setCategories);
@@ -18,8 +19,16 @@ function App() {
     return categories[curr] ? [...acc, curr] : acc;
   }, [] as Array<string>).join(",") || "Any";
 
+  const onClick = async () => {
+    setBusy(true);
+    await getJoke(catList, setJoke);
+    setBusy(false);
+  }
+
   return (
     <>
+      <div className={"overlay" + (busy ? " busy" : "")} />
+
       <div>
         <img src="/congrationYouDoneIt.png" className="logo" alt="Vite logo" />
       </div>
@@ -28,7 +37,7 @@ function App() {
       <CatSelection categories={categories} setCategories={setCategories} />
 
       <div className="card">
-        <button onClick={() => getJoke(catList, setJoke)}>Get Joke</button>
+        <button onClick={onClick}>Get Joke</button>
       </div>
 
       <div>

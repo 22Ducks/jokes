@@ -19,7 +19,7 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
 
             {
                 Object.entries(categories).map(([cat, checked]) => 
-                    <div>
+                    <div key={cat}>
                         <input type="checkbox" name={cat} checked={checked} onChange={() => onChange(cat)}/>
                         <label htmlFor={cat}>{cat}</label>
                     </div>
