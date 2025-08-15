@@ -28,17 +28,23 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
         <fieldset>
             <legend>Select desired joke categories:</legend>
 
-            <div className="toggler">
-                <input type="checkbox" name="toggle" checked={toggleChecked} onChange={toggleAll}/>
-                <label htmlFor="toggle">Toggle All</label>
-            </div>
-
-            {
-                Object.entries(categories).map(([cat, checked]) => 
-                    <div key={cat}>
-                        <input type="checkbox" name={cat} checked={checked} onChange={() => onChange(cat)}/>
-                        <label htmlFor={cat}>{cat}</label>
+            { Object.keys(categories).length > 0 ? (
+                <>
+                    <div className="toggler">
+                        <input type="checkbox" name="toggle" checked={toggleChecked} onChange={toggleAll}/>
+                        <label htmlFor="toggle">Toggle All</label>
                     </div>
+
+                    {
+                        Object.entries(categories).map(([cat, checked]) => 
+                            <div key={cat}>
+                                <input type="checkbox" name={cat} checked={checked} onChange={() => onChange(cat)}/>
+                                <label htmlFor={cat}>{cat}</label>
+                            </div>
+                        )
+                    }
+                </>) : (
+                    <img src="/loading.gif" width="150px"/>
                 )
             }
         </fieldset>

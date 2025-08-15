@@ -15,6 +15,8 @@ function App() {
     getCats(setCategories);
   }, []);
 
+  const getJokeDisabled = Object.keys(categories).length === 0;
+
   const catList = Object.keys(categories).reduce((acc, curr) => {
     return categories[curr] ? [...acc, curr] : acc;
   }, [] as Array<string>).join(",") || "Any";
@@ -37,7 +39,7 @@ function App() {
       <CatSelection categories={categories} setCategories={setCategories} />
 
       <div className="card">
-        <button onClick={onClick}>Get Joke</button>
+        <button onClick={onClick} disabled={getJokeDisabled}>Get Joke</button>
       </div>
 
       <div>
