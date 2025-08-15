@@ -1,6 +1,8 @@
 import { options } from "./constants";
 import type { Categories } from "./types";
 
+const filters = ["Any", "Dark"];
+
 export const getCats = async (setCategories: (cat: Categories) => void) => {
     const response = await fetch("https://v2.jokeapi.dev/categories", options);
     if(!response.ok) {
@@ -10,7 +12,7 @@ export const getCats = async (setCategories: (cat: Categories) => void) => {
     const result = await response.json();
 
     const jokeCats = (result.categories as string[]).reduce((acc, curr) => {
-    return curr === "Any" ? acc : {...acc, [curr]: false};
+    return filters.includes(curr) ? acc : {...acc, [curr]: false};
     }, {} as Categories);
 
     setCategories(jokeCats);
