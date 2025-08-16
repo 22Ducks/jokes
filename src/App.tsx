@@ -4,6 +4,7 @@ import { getCats } from './getCats';
 import { getJoke } from './getJoke';
 import type { Categories, Joke } from './types';
 import { CatSelection } from './CatSelection';
+import styled from 'styled-components';
 
 function App() {
 
@@ -27,26 +28,50 @@ function App() {
     setBusy(false);
   }
 
+  const Logo = styled.img `
+  height: 100px;
+  `;
+
+  const Overlay = styled.div<{ busy: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: ${({ busy }) => busy ? "block" : "none"};
+  cursor: wait;
+  `;
+
+  const StyledButton = styled.button `
+  text-align: center;
+  margin-top: 20px;
+  `;
+
+  const JokeText = styled.div `
+  color: blue;
+  `;
+
   return (
     <>
-      <div className={"overlay" + (busy ? " busy" : "")} />
+      <Overlay busy={busy}/>
 
       <div>
-        <img src="/congrationYouDoneIt.png" className="logo" alt="Vite logo" />
+        <Logo src="/congrationYouDoneIt.png" />
       </div>
       <h1>Flock of Jokes</h1>
 
       <CatSelection categories={categories} setCategories={setCategories} />
 
-      <div className="card">
-        <button onClick={onClick} disabled={getJokeDisabled}>Get Joke</button>
+      <div>
+        <StyledButton onClick={onClick} disabled={getJokeDisabled}>Get Joke</StyledButton>
       </div>
 
-      <div>
+      <JokeText>
         { joke.joke && <p>{joke.joke}</p> }
         { joke.setup && <p>{joke.setup}</p> }
         { joke.delivery && <p>{joke.delivery}</p> }
-      </div>
+      </JokeText>
     </>
   )
 }

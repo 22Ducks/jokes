@@ -1,3 +1,4 @@
+import { styled } from "styled-components";
 import type { Categories } from "./types";
 
 type Props = {
@@ -24,16 +25,25 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
         setCategories(newCats);
     }
 
+    const Toggler = styled.div `
+    border-bottom: 1px solid black;
+    `;
+
+    const CatBox = styled.fieldset `
+    border: 3px solid black;
+    width: 350px;
+    `;
+
     return (
-        <fieldset>
+        <CatBox>
             <legend>Select desired joke categories:</legend>
 
             { Object.keys(categories).length > 0 ? (
                 <>
-                    <div className="toggler">
+                    <Toggler>
                         <input type="checkbox" name="toggle" checked={toggleChecked} onChange={toggleAll}/>
                         <label htmlFor="toggle">Toggle All</label>
-                    </div>
+                    </Toggler>
 
                     {
                         Object.entries(categories).map(([cat, checked]) => 
@@ -47,6 +57,6 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
                     <img src="/loading.gif" width="150px"/>
                 )
             }
-        </fieldset>
+        </CatBox>
     );
 }
