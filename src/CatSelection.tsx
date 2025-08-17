@@ -34,9 +34,16 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
     width: 350px;
     `;
 
+    const StyledLegend = styled.legend `
+    text-align: center;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    `;
+
     return (
         <CatBox>
-            <legend>Select desired joke categories:</legend>
+            <StyledLegend>Select desired joke categories:</StyledLegend>
 
             { Object.keys(categories).length > 0 ? (
                 <>
