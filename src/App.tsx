@@ -5,6 +5,7 @@ import { getJoke } from './getJoke';
 import type { Categories, Joke } from './types';
 import { CatSelection } from './CatSelection';
 import styled from 'styled-components';
+import Button from '@mui/material/Button';
 
 function App() {
 
@@ -28,32 +29,37 @@ function App() {
     setBusy(false);
   }
 
+  const Container = styled.div `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  `;
+
   const Logo = styled.img `
-  height: 100px;
+    height: 100px;
   `;
 
   const Overlay = styled.div<{ busy: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  display: ${({ busy }) => busy ? "block" : "none"};
-  cursor: wait;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: ${({ busy }) => busy ? "block" : "none"};
+    cursor: wait;
   `;
 
-  const StyledButton = styled.button `
-  text-align: center;
-  margin-top: 20px;
-  `;
+  // const StyledButton = styled(Button) `
+  //   text-align: center;
+  //   margin-top: 20px;
+  // `;
 
-  const JokeText = styled.div `
-  color: blue;
-  `;
+  const JokeText = styled.div ``;
 
   return (
-    <>
+    <Container>
       <Overlay busy={busy}/>
 
       <div>
@@ -64,7 +70,7 @@ function App() {
       <CatSelection categories={categories} setCategories={setCategories} />
 
       <div>
-        <StyledButton onClick={onClick} disabled={getJokeDisabled}>Get Joke</StyledButton>
+        <Button variant="outlined" onClick={onClick} disabled={getJokeDisabled}>Get Joke</Button>
       </div>
 
       <JokeText>
@@ -72,7 +78,7 @@ function App() {
         { joke.setup && <p>{joke.setup}</p> }
         { joke.delivery && <p>{joke.delivery}</p> }
       </JokeText>
-    </>
+    </Container>
   )
 }
 
