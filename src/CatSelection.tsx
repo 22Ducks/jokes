@@ -1,4 +1,3 @@
-import { styled } from "styled-components";
 import type { Categories } from "./types";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
@@ -30,24 +29,8 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
         setCategories(newCats);
     }
 
-    const Toggler = styled.div `
-        border-bottom: 1px solid black;
-    `;
-
-    const CatBox = styled.fieldset `
-        border: 3px solid black;
-        width: 350px;
-    `;
-
-    const StyledLegend = styled.legend `
-        text-align: center;
-        width: auto;
-        margin-left: auto;
-        margin-right: auto;
-    `;
-
     return (
-        <FormControl component="fieldset" variant="standard">
+        <FormControl sx={{ m: 1 }} component="fieldset" variant="standard">
             <FormLabel component="legend">Select desired joke categories:</FormLabel>
 
             { Object.keys(categories).length > 0 ? (
@@ -61,11 +44,6 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
 
                     {
                         Object.entries(categories).map(([cat, checked]) => 
-                            // <div key={cat}>
-                            //     <input type="checkbox" name={cat} checked={checked} onChange={() => onChange(cat)}/>
-                            //     <label htmlFor={cat}>{cat}</label>
-                            // </div>
-
                             <FormControlLabel
                                 key={cat}
                                 control={

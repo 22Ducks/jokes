@@ -7,6 +7,28 @@ import { CatSelection } from './CatSelection';
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 
+const Container = styled.div `
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+`;
+
+const Logo = styled.img `
+  height: 100px;
+`;
+
+const Overlay = styled.div<{ busy: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: ${({ busy }) => busy ? "block" : "none"};
+  cursor: wait;
+`;
+
 function App() {
 
   const [joke, setJoke] = useState<Joke>({});
@@ -29,42 +51,13 @@ function App() {
     setBusy(false);
   }
 
-  const Container = styled.div `
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  `;
-
-  const Logo = styled.img `
-    height: 100px;
-  `;
-
-  const Overlay = styled.div<{ busy: boolean }>`
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    display: ${({ busy }) => busy ? "block" : "none"};
-    cursor: wait;
-  `;
-
-  // const StyledButton = styled(Button) `
-  //   text-align: center;
-  //   margin-top: 20px;
-  // `;
-
   const JokeText = styled.div ``;
 
   return (
     <Container>
       <Overlay busy={busy}/>
 
-      <div>
-        <Logo src="/congrationYouDoneIt.png" />
-      </div>
+      <Logo src="/congrationYouDoneIt.png" />
       <h1>Flock of Jokes</h1>
 
       <CatSelection categories={categories} setCategories={setCategories} />
