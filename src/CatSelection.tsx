@@ -37,7 +37,7 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
                 <FormGroup>
                     <FormControlLabel
                         control={
-                        <Checkbox checked={toggleChecked} onChange={toggleAll}/>
+                        <Checkbox sx={{ p: 0.25 }} checked={toggleChecked} onChange={toggleAll}/>
                         }
                         label="Toggle All"
                     />
@@ -47,7 +47,7 @@ export const CatSelection = ({ categories, setCategories }: Props) => {
                             <FormControlLabel
                                 key={cat}
                                 control={
-                                <Checkbox checked={checked} onChange={() => onChange(cat)}/>
+                                <Checkbox sx={{ p: 0.25 }} checked={checked} onChange={() => onChange(cat)}/>
                                 }
                                 label={cat}
                             />
